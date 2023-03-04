@@ -1,8 +1,6 @@
 // Функция для проверки длины строки.
-const isMaxLength = (string, length) => {
-  return string.length <= length;
-}
-
+const isMaxLength = (string, length) => string.length <= length;
+isMaxLength('Тараканы били в барабаны', 20);
 // Функция для проверки, является ли строка палиндромом.
 
 const isPalindrom = (string) => {
@@ -15,8 +13,8 @@ const isPalindrom = (string) => {
     reverseString += tempString.at(i);
   }
   return tempString === reverseString;
-}
-
+};
+isPalindrom('Топот');
 // Функция, которая принимает строку, извлекает содержащиеся в ней цифры от 0 до 9 и возвращает их в виде целого положительного числа.
 
 const isNumber = (string) => {
@@ -27,11 +25,13 @@ const isNumber = (string) => {
     }
   }
   return parseInt(result, 10);
-}
+};
+
+isNumber('Мама007');
 
 // Функция, которая принимает три параметра: исходную строку, минимальную длину и строку с добавочными символами — и возвращает исходную строку, дополненную указанными символами до заданной длины.
 
-const addSymbols = (string, minLengh, addition) => {
+function addSymbols(string, minLengh, addition) {
   const actualPad = minLengh - string.length;
 
   if (actualPad <= 0) {
@@ -39,3 +39,5 @@ const addSymbols = (string, minLengh, addition) => {
   }
   return addition.slice(0, actualPad % addition.length) + addition.repeat(actualPad / addition.length) + string;
 }
+
+addSymbols('1', 2, '0');
