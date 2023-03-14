@@ -72,18 +72,33 @@ function getRandomUniqueNumber (a, b) {
   };
 }
 
+const getRandomUniqueNumberForComments = getRandomUniqueNumber(1,99999);
+getRandomUniqueNumberForComments();
+
+const getRandomUniqueNumberMessage = getRandomUniqueNumber(0,5);
+getRandomUniqueNumberForComments();
+
+const getRandomUniqueNumberForMessage = getRandomUniqueNumber(0,5);
+getRandomUniqueNumberForMessage();
+
+const getRandomUniqueNumberForObjects = getRandomUniqueNumber(1,25);
+getRandomUniqueNumberForObjects();
+
+const getRandomUniqueNumberForDescription = getRandomUniqueNumber(0,24);
+getRandomUniqueNumberForDescription();
+
 const CREATE_COMMENT = () => ({
-  id: getRandomUniqueNumber(1, 999999),
+  id: getRandomUniqueNumberForComments(),
   avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
-  message: MESSAGE[getRandomUniqueNumber(0, 5)],
+  message: MESSAGE[getRandomUniqueNumberForMessage()],
   name: AUTHOR_NAME[getRandomNumber(0, 6)],
 });
 
 
 const CREATE_OBJECT = () => ({
-  id: getRandomUniqueNumber(1, 25),
-  url: `photos/${getRandomUniqueNumber(1, 25)}.jpg`,
-  description: DESCRIPTION_PHOTO[getRandomUniqueNumber(0, 24)],
+  id: getRandomUniqueNumberForObjects(),
+  url: `photos/${getRandomUniqueNumberForObjects()}.jpg`,
+  description: DESCRIPTION_PHOTO[getRandomUniqueNumberForDescription()],
   likes: getRandomNumber(15, 200),
   comments: Array.from({ length: NUMBER_OF_COMMENTS }, CREATE_COMMENT),
 });
