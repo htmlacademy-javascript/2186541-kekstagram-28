@@ -48,15 +48,14 @@ const DESCRIPTION_PHOTO = [
 const NUMBER_OF_OBJECT = 25;
 const NUMBER_OF_COMMENTS = 5;
 
-
-function getRandomNumber (a, b) {
+function getRandomNumber(a, b) {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 }
 
-function getRandomUniqueNumber (a, b) {
+function getRandomUniqueNumber(a, b) {
   const usedNumbers = [];
 
   return function () {
@@ -72,21 +71,35 @@ function getRandomUniqueNumber (a, b) {
   };
 }
 
+const getRandomUniqueNumberForComments = getRandomUniqueNumber(1, 99999);
+getRandomUniqueNumberForComments();
+
+const getRandomUniqueNumberForMessage = getRandomUniqueNumber(1, 6);
+getRandomUniqueNumberForMessage();
+
+const getRandomUniqueNumberForObjects = getRandomUniqueNumber(1, 25);
+
+const getRandomUniqueNumberForDescription = getRandomUniqueNumber(0, 25);
+getRandomUniqueNumberForDescription();
+
 const CREATE_COMMENT = () => ({
-  id: getRandomUniqueNumber(1, 999999),
+  id: getRandomUniqueNumberForComments(),
   avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
-  message: MESSAGE[getRandomUniqueNumber(0, 5)],
+  message: MESSAGE[getRandomUniqueNumberForMessage(1, 6)],
   name: AUTHOR_NAME[getRandomNumber(0, 6)],
 });
 
-
-const CREATE_OBJECT = () => ({
-  id: getRandomUniqueNumber(1, 25),
-  url: `photos/${getRandomUniqueNumber(1, 25)}.jpg`,
-  description: DESCRIPTION_PHOTO[getRandomUniqueNumber(0, 24)],
-  likes: getRandomNumber(15, 200),
-  comments: Array.from({ length: NUMBER_OF_COMMENTS }, CREATE_COMMENT),
-});
+const CREATE_OBJECT = () => {
+  const uniqueNumberForObjects = getRandomUniqueNumberForObjects();
+  return {
+    id: uniqueNumberForObjects,
+    url: `photos/${uniqueNumberForObjects}.jpg`,
+    description: DESCRIPTION_PHOTO[getRandomUniqueNumberForDescription()],
+    likes: getRandomNumber(15, 200),
+    comments: Array.from({ length: NUMBER_OF_COMMENTS }, CREATE_COMMENT),
+  };
+};
 
 const generateObjects = () => Array.from({ length: NUMBER_OF_OBJECT }, CREATE_OBJECT);
-generateObjects();
+const exit = generateObjects();
+console.log(exit);
