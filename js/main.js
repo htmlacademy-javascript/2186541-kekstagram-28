@@ -1,4 +1,4 @@
-const AUTHOR_NAME = [
+const AUTHOR_NAMES = [
   'Антон',
   'Гвидон',
   'Андрей',
@@ -8,7 +8,7 @@ const AUTHOR_NAME = [
   'Брэд'
 ];
 
-const MESSAGE = [
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -17,7 +17,7 @@ const MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const DESCRIPTION_PHOTO = [
+const DESCRIPTION_PHOTOS = [
   'Лучше и быть не может',
   'Какое голубое небо, вы такого никогда не видели',
   'Снимаю салют. Это всем очень интересно',
@@ -74,32 +74,29 @@ function getRandomUniqueNumber(a, b) {
 const getRandomUniqueNumberForComments = getRandomUniqueNumber(1, 99999);
 getRandomUniqueNumberForComments();
 
-const getRandomUniqueNumberForMessage = getRandomUniqueNumber(1, 6);
-getRandomUniqueNumberForMessage();
-
 const getRandomUniqueNumberForObjects = getRandomUniqueNumber(1, 25);
 
 const getRandomUniqueNumberForDescription = getRandomUniqueNumber(0, 25);
 getRandomUniqueNumberForDescription();
 
-const CREATE_COMMENT = () => ({
+const createComment = () => ({
   id: getRandomUniqueNumberForComments(),
   avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
-  message: MESSAGE[getRandomUniqueNumberForMessage(1, 6)],
-  name: AUTHOR_NAME[getRandomNumber(0, 6)],
+  message: MESSAGES[getRandomNumber(0, 5)],
+  name: AUTHOR_NAMES[getRandomNumber(0, 6)],
 });
 
-const CREATE_OBJECT = () => {
+const createObject = () => {
   const uniqueNumberForObjects = getRandomUniqueNumberForObjects();
   return {
     id: uniqueNumberForObjects,
     url: `photos/${uniqueNumberForObjects}.jpg`,
-    description: DESCRIPTION_PHOTO[getRandomUniqueNumberForDescription()],
+    description: DESCRIPTION_PHOTOS[getRandomUniqueNumberForDescription()],
     likes: getRandomNumber(15, 200),
-    comments: Array.from({ length: NUMBER_OF_COMMENTS }, CREATE_COMMENT),
+    comments: Array.from({ length: NUMBER_OF_COMMENTS }, createComment),
   };
 };
 
-const generateObjects = () => Array.from({ length: NUMBER_OF_OBJECT }, CREATE_OBJECT);
+const generateObjects = () => Array.from({ length: NUMBER_OF_OBJECT }, createObject);
 const exit = generateObjects();
 console.log(exit);
