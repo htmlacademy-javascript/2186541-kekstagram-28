@@ -79,4 +79,4 @@ const createObject = () => {
 const generateObjects = () => Array.from({ length: NUMBER_OF_OBJECT }, createObject);
 const exit = generateObjects();
 
-export {exit, generateObjects};
+export {exit, generateObjects, createComment};
