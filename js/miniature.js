@@ -22,6 +22,6 @@ const createMiniature = () => {
   pictures.append(fragment);
 };
 
-export { createMiniature };
+export { createMiniature, pictures};
 
 
