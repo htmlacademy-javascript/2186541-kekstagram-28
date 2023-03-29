@@ -1,6 +1,5 @@
 // модуль отвечает за отрисовку окна с полноразмерным изображением
 import { isEscapeKey } from './util.js';
-import { pictures } from './miniature.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const openButton = document.querySelector('.pictures');
@@ -8,35 +7,60 @@ const closeButton = bigPicture.querySelector('#picture-cancel');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 
-
 // отрисовка большого изображения
 const bigPictureImg = document.querySelector('.big-picture__img img');
 const bigPictureLikes = bigPicture.querySelector('.likes-count');
 const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
-const bigPictureComment = bigPicture.querySelector('.social__comments');
 const bigPictureCaption = bigPicture.querySelector('.social__caption');
+const commentContainer = bigPicture.querySelector('.social__comments');
+const commentItemTemplate = document.querySelector('.social__comment').cloneNode(true);
 
+// Отрисовка комментариев
+let shownComments = 0;
+const COMMENTS_NUMBER = 5;
+
+const createComment = (array) => {
+  const commentsFragment = document.createDocumentFragment();
+  array.forEach(({ avatar, message, name }) => {
+    const commentItem = commentItemTemplate.cloneNode(true);
+    commentItem.querySelector('.social__picture').src = avatar;
+    commentItem.querySelector('.social__picture').alt = name;
+    commentItem.querySelector('.social__text').textContent = message;
+    commentsFragment.append(commentItem);
+  });
+  commentContainer.append(commentsFragment);
+};
+
+const generateComments = (array) => {
+  if (array.length <= 5) {
+    commentsLoader.classList.add('hidden');
+    createComment(array);
+    commentCount.textContent = `${array.length} из ${array.length} комментариев`;
+  }
+  else {
+    const currentCountOfComments = array.slice(shownComments, shownComments + COMMENTS_NUMBER);
+    shownComments += currentCountOfComments.length;
+    if (shownComments >= array.length) {
+      return;
+    }
+    createComment(currentCountOfComments);
+    commentCount.textContent = `${shownComments} из ${array.length} комментариев`;
+  }
+};
+
+function onSocialCommentsLoaderClick(evt) {
+  evt.preventDefault();
+  createComment(generateComments());
+}
+
+// Главная функция по отрисовке большого фото
 const createBigPhoto = ({ url, description, comments, likes }) => {
   bigPictureImg.src = url;
   bigPictureLikes.textContent = likes;
   bigPictureCommentsCount.textContent = comments.length;
-  bigPictureCaption = description;
-};
-
-// открытие окна с полноразмерным изображение
-const openBigPicture = () => {
-  bigPicture.classList.remove('hidden');
-  commentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
-  createBigPhoto(pictures);
-  document.addEventListener('keydown', onDocumentKeydownEsc);
-};
-
-// закрытие окна по нажатию клавиши Esc
-const closeBigPicture = () => {
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydownEsc);
+  bigPictureCaption.textContent = description;
+  commentContainer.innerHTML = '';
+  generateComments(comments);
 };
 
 const onDocumentKeydownEsc = (evt) => {
@@ -46,20 +70,22 @@ const onDocumentKeydownEsc = (evt) => {
   }
 };
 
+// открытие и закрытие окна с полноразмерным изображение
+const openBigPicture = () => {
+  bigPicture.classList.remove('hidden');
+  createBigPhoto();
+  commentsLoader.addEventListener('click', onSocialCommentsLoaderClick);
+  document.addEventListener('keydown', onDocumentKeydownEsc);
+};
+
+const closeBigPicture = () => {
+  bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  commentsLoader.removeEventListener('click', onSocialCommentsLoaderClick);
+  document.removeEventListener('keydown', onDocumentKeydownEsc);
+};
+
 openButton.addEventListener('click', () => openBigPicture());
 closeButton.addEventListener('click', () => closeBigPicture());
 
-// создание комментариев
-// const commentAvatar = comment.querySelector('.social__picture');
-// const commentMessage = comment.querySelector('.social__text');
-
-// const renderComment = (({avatar, name, message}) => {
-//   const comment = commentItem.cloneNode(true);
-//   commentAvatar.src = avatar;
-//   commentAvatar.alt = name;
-//   commentMessage.textContent = message;
-
-//   return comment;
-// });
-
-export { openBigPicture, createBigPhoto };
+export { createBigPhoto };

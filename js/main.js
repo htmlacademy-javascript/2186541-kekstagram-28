@@ -4,5 +4,5 @@ import "./full-size.js";
 import { createGallery } from './gallery.js';
 console.log(exit);
 
-createMiniature();
-createGallery();
+createMiniature(exit);
+createGallery(exit);
