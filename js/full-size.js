@@ -40,11 +40,13 @@ const generateComments = (array) => {
   else {
     const currentCountOfComments = array.slice(shownComments, shownComments + COMMENTS_NUMBER);
     shownComments += currentCountOfComments.length;
-    if (shownComments >= array.length) {
-      return;
-    }
     createComment(currentCountOfComments);
     commentCount.textContent = `${shownComments} из ${array.length} комментариев`;
+    if (shownComments >= array.length) {
+      commentsLoader.classList.add('hidden');
+      return;
+    }
+
   }
 };
 
