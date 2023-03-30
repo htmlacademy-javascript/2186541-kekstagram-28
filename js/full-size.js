@@ -13,11 +13,12 @@ const bigPictureLikes = bigPicture.querySelector('.likes-count');
 const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
 const bigPictureCaption = bigPicture.querySelector('.social__caption');
 const commentContainer = bigPicture.querySelector('.social__comments');
-const commentItemTemplate = document.querySelector('.social__comment').cloneNode(true);
+const commentItemTemplate = document.querySelector('.social__comment');
 
 // Отрисовка комментариев
 let shownComments = 0;
 const COMMENTS_NUMBER = 5;
+let commentsArray = [];
 
 const createComment = (array) => {
   const commentsFragment = document.createDocumentFragment();
@@ -38,28 +39,30 @@ const generateComments = (array) => {
     commentCount.textContent = `${array.length} из ${array.length} комментариев`;
   }
   else {
+    debugger;
     shownComments += COMMENTS_NUMBER;
     if (shownComments >= array.length) {
       commentsLoader.classList.add('hidden');
       shownComments = array.length;
+      createComment(array);
     }
     else {
-      const fragment = document.createDocumentFragment();
+      commentsArray = [];
       for (let i = 0; i < shownComments; i++) {
-        const commentElement = createComment(array[i]);
-        fragment.append(commentElement);
+        commentsArray.push(array[i]);
       }
-      commentContainer.innerHTML = '';
-      commentContainer.append(fragment);
-      commentCount.textContent = `${shownComments} из ${array.length} комментариев`;
+      createComment(commentsArray);
     }
-
+    commentsArray = [];
+    commentsArray = array;
   }
+  commentCount.textContent = `${shownComments} из ${array.length} комментариев`;
 };
 
-function onSocialCommentsLoaderClick(evt) {
+const onSocialCommentsLoaderClick = (evt) => {
   evt.preventDefault();
-  generateComments();
+  commentContainer.innerHTML = '';
+  generateComments(commentsArray);
 }
 
 // Главная функция по отрисовке большого фото
@@ -70,6 +73,7 @@ const createBigPhoto = ({ url, description, comments, likes }) => {
   bigPictureCaption.textContent = description;
   commentContainer.innerHTML = '';
   generateComments(comments);
+  commentsLoader.addEventListener('click', onSocialCommentsLoaderClick);
 };
 
 const onDocumentKeydownEsc = (evt) => {
@@ -82,8 +86,8 @@ const onDocumentKeydownEsc = (evt) => {
 // открытие и закрытие окна с полноразмерным изображение
 const openBigPicture = () => {
   bigPicture.classList.remove('hidden');
+  document.body.classList.add('modal-open');
   createBigPhoto();
-  commentsLoader.addEventListener('click', onSocialCommentsLoaderClick);
   document.addEventListener('keydown', onDocumentKeydownEsc);
 };
 

@@ -50,7 +50,7 @@ const DESCRIPTION_PHOTOS = [
 ];
 
 const NUMBER_OF_OBJECT = 25;
-const NUMBER_OF_COMMENTS = 7;
+const NUMBER_OF_COMMENTS = 13;
 
 const getRandomUniqueNumberForComments = getRandomUniqueNumber(1, 99999);
 getRandomUniqueNumberForComments();
