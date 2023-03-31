@@ -8,8 +8,8 @@ const createGallery = (pictures) => {
     if (!thumbnail) {
       return;
     }
+    evt.preventDefault();
     const picture = pictures.find((item) => Number(item.id === +thumbnail.dataset.anotherPictureId));
-
     createBigPhoto(picture);
   });
 
