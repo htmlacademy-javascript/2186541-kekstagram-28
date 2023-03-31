@@ -39,7 +39,6 @@ const generateComments = (array) => {
     commentCount.textContent = `${array.length} из ${array.length} комментариев`;
   }
   else {
-    debugger;
     shownComments += COMMENTS_NUMBER;
     if (shownComments >= array.length) {
       commentsLoader.classList.add('hidden');
@@ -48,6 +47,7 @@ const generateComments = (array) => {
     }
     else {
       commentsArray = [];
+      commentsLoader.classList.remove('hidden');
       for (let i = 0; i < shownComments; i++) {
         commentsArray.push(array[i]);
       }
@@ -63,7 +63,7 @@ const onSocialCommentsLoaderClick = (evt) => {
   evt.preventDefault();
   commentContainer.innerHTML = '';
   generateComments(commentsArray);
-}
+};
 
 // Главная функция по отрисовке большого фото
 const createBigPhoto = ({ url, description, comments, likes }) => {
@@ -72,6 +72,7 @@ const createBigPhoto = ({ url, description, comments, likes }) => {
   bigPictureCommentsCount.textContent = comments.length;
   bigPictureCaption.textContent = description;
   commentContainer.innerHTML = '';
+  shownComments = 0;
   generateComments(comments);
   commentsLoader.addEventListener('click', onSocialCommentsLoaderClick);
 };
