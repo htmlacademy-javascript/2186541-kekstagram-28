@@ -3,8 +3,6 @@ import { isEscapeKey } from './util.js';
 const uploadImgForm = document.querySelector('.img-upload__overlay');
 const uploadImgButton = document.querySelector('#upload-file');
 const cancelUploadImgButton = document.querySelector('#upload-cancel');
-// const textHashtags = uploadFormWindow.querySelector('.text__hashtags');
-// const textDescription = uploadFormWindow.querySelector('.text__description');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -22,6 +20,7 @@ const openUploadForm = () => {
 const closeUploadForm = () => {
   uploadImgForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  uploadImgButton.value = '';
   document.removeEventListener('keydown', onDocumentKeydown());
 };
 
