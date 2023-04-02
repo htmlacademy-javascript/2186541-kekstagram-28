@@ -74,6 +74,9 @@ const createBigPhoto = (picture) => {
   shownComments = 0;
   generateComments(picture.comments);
   commentsLoader.addEventListener('click', onSocialCommentsLoaderClick);
+  document.addEventListener('keydown', onDocumentKeydownEsc);
+  bigPicture.classList.remove('hidden');
+  document.body.classList.add('modal-open');
 };
 
 const onDocumentKeydownEsc = (evt) => {
@@ -83,14 +86,6 @@ const onDocumentKeydownEsc = (evt) => {
   }
 };
 
-// открытие и закрытие окна с полноразмерным изображение
-const openBigPicture = () => {
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  createBigPhoto();
-  document.addEventListener('keydown', onDocumentKeydownEsc);
-};
-
 const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -98,7 +93,6 @@ const closeBigPicture = () => {
   document.removeEventListener('keydown', onDocumentKeydownEsc);
 };
 
-openButton.addEventListener('click', () => openBigPicture());
 closeButton.addEventListener('click', () => closeBigPicture());
 
 export { createBigPhoto };
