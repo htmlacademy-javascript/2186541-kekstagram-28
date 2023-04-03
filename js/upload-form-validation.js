@@ -1,6 +1,6 @@
 const APROVED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAGS_NUMBER = 5;
-const TEXT_ERROR = 'Хэш-теги должны начинаться с #, разделяться пробелами, содержать только буквы и цифры, иметь длину от 2 до 20 символов, не дублироваться и не больше 5 штук';
+const TEXT_ERROR = 'Неверные хэштэги';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const textHashtags = document.querySelector('.text__hashtags');
@@ -20,12 +20,14 @@ const hasAprovedSymbols = (item) => APROVED_SYMBOLS.test(item);
 
 const validateHashtags = (value) => {
   const tags = value.trim().split(' ').filter((tag) => tag.trim().length);
-  hasDuplicates(tags);
-  hasValidCount(tags);
-  tags.every(hasAprovedSymbols);
+  return hasDuplicates(tags) && hasValidCount(tags) && tags.every(hasAprovedSymbols);
 };
 
-uploadForm.addEventListener('submit', (evt) => {
+pristine.addValidator(textHashtags, validateHashtags, TEXT_ERROR);
+
+const onSubmit = (evt) => {
   evt.preventDefault();
-  pristine.addValidator(textHashtags, validateHashtags, TEXT_ERROR);
-});
+  pristine.validate();
+};
+
+uploadForm.addEventListener('submit', onSubmit);

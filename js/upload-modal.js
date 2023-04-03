@@ -26,7 +26,6 @@ const openUploadForm = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   textHashtags.addEventListener('keydown', onTextEscPreventation);
   textDescription.addEventListener('keydown', onTextEscPreventation);
-  validateForm();
 };
 
 const closeUploadForm = () => {
