@@ -6,3 +6,12 @@
 // const effectLevelSlider = document.querySelector('.effect-level__slider');
 // const effectValue = document.querySelector('.effect-level__value');
 // const sliderContainer = document.querySelector('.effect-level');
+
+// noUiSlider.create(effectLevelSlider, {
+//   range: {
+//     min: MIN_VALUE,
+//     max: MAX_VALUE,
+//   },
+//   start: MAX_VALUE,
+//   connect: 'lower'
+// });
