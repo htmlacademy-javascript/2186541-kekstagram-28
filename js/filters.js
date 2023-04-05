@@ -28,6 +28,8 @@ const filterVariants = [
   },
   {
     name: 'chrome',
+    filter: 'grayscale',
+    type: '',
     range: {
       min: 0,
       max: 1
@@ -38,6 +40,8 @@ const filterVariants = [
 
   {
     name: 'sepia',
+    filter: 'sepia',
+    type: '',
     range: {
       min: 0,
       max: 1
@@ -48,6 +52,8 @@ const filterVariants = [
 
   {
     name: 'marvin',
+    filter: 'invert',
+    type: '%',
     range: {
       min: 0,
       max: 100
@@ -58,6 +64,8 @@ const filterVariants = [
 
   {
     name: 'phobos',
+    filter: 'blur',
+    type: 'px',
     range: {
       min: 0,
       max: 3
@@ -68,6 +76,8 @@ const filterVariants = [
 
   {
     name: 'heat',
+    filter: 'brightness',
+    type: '',
     range: {
       min: 0,
       max: 3
@@ -88,7 +98,6 @@ const updateSlider = () => {
   });
   if (chosenEffect.name === 'none') {
     sliderContainer.classList.add('hidden');
-    effectLevelSlider.noUiSlider.off();
     imgPreview.style.filter = '';
   }
 };
@@ -104,17 +113,10 @@ const changeFilter = (evt) => {
   updateSlider();
 };
 
-const filterValue = {
-  chrome: `grayscale(${effectValue.value})`,
-  sepia: `sepia(${effectValue.value})`,
-  marvin: `invert(${effectValue.value}%)`,
-  phobos: `blur(${effectValue.value}px)`,
-  heat: `brightness(${effectValue.value})`
-};
-
 const onSliderUpdate = () => {
+  imgPreview.style.filter = '';
   effectValue.value = effectLevelSlider.noUiSlider.get();
-  imgPreview.style.filter = filterValue[chosenEffect.name];
+  imgPreview.style.filter = `${chosenEffect.filter}(${effectValue.value}${chosenEffect.type})`;
 };
 
 radioButtons.addEventListener('change', changeFilter);

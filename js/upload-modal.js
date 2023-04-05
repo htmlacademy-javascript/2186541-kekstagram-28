@@ -6,6 +6,7 @@ const downloadButton = document.querySelector('.img-upload');
 const cancelUploadImgButton = document.querySelector('#upload-cancel');
 const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
+const imgPreview = document.querySelector('.img-upload__preview img');
 
 const onTextEscPreventation = (evt) => {
   if (isEscapeKey(evt)) {
@@ -32,6 +33,7 @@ const closeUploadForm = () => {
   uploadImgForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
   uploadImgButton.value = '';
+  imgPreview.classList = '';
   document.removeEventListener('keydown', onDocumentKeydown);
   textHashtags.removeEventListener('keydown', onTextEscPreventation);
   textDescription.removeEventListener('keydown', onTextEscPreventation);
