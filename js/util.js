@@ -24,4 +24,7 @@ const getRandomUniqueNumber = (a, b) => {
   };
 };
 
-export {getRandomNumber, getRandomUniqueNumber};
+const isEnterKey = (evt) => evt.key === 'Enter';
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomNumber, getRandomUniqueNumber, isEnterKey, isEscapeKey};

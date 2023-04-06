@@ -1,3 +1,4 @@
 webpack.config.js
 vendor/
-main.js
+full-size.js
+upload-modal.js
