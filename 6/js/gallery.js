@@ -9,7 +9,7 @@ const createGallery = (pictures) => {
       return;
     }
     evt.preventDefault();
-    const picture = pictures.find((item) => Number(item.id === +thumbnail.dataset.anotherPictureId));
+    const picture = pictures.find((item) => item.id === Number(thumbnail.dataset.anotherPictureId));
     createBigPhoto(picture);
   });
 

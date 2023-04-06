@@ -18,7 +18,7 @@ const commentItemTemplate = document.querySelector('.social__comment');
 // Отрисовка комментариев
 let shownComments = 0;
 const COMMENTS_NUMBER = 5;
-let commentsArray = [];
+let comments = [];
 
 const createComment = (array) => {
   const commentsFragment = document.createDocumentFragment();
@@ -46,15 +46,14 @@ const generateComments = (array) => {
       createComment(array);
     }
     else {
-      commentsArray = [];
+      comments = [];
       commentsLoader.classList.remove('hidden');
       for (let i = 0; i < shownComments; i++) {
-        commentsArray.push(array[i]);
+        comments.push(array[i]);
       }
-      createComment(commentsArray);
+      createComment(comments);
     }
-    commentsArray = [];
-    commentsArray = array;
+    comments = array;
   }
   commentCount.textContent = `${shownComments} из ${array.length} комментариев`;
 };
@@ -62,19 +61,22 @@ const generateComments = (array) => {
 const onSocialCommentsLoaderClick = (evt) => {
   evt.preventDefault();
   commentContainer.innerHTML = '';
-  generateComments(commentsArray);
+  generateComments(comments);
 };
 
 // Главная функция по отрисовке большого фото
-const createBigPhoto = ({ url, description, comments, likes }) => {
-  bigPictureImg.src = url;
-  bigPictureLikes.textContent = likes;
-  bigPictureCommentsCount.textContent = comments.length;
-  bigPictureCaption.textContent = description;
+const createBigPhoto = (picture) => {
+  bigPictureImg.src = picture.url;
+  bigPictureLikes.textContent = picture.likes;
+  bigPictureCommentsCount.textContent = picture.comments.length;
+  bigPictureCaption.textContent = picture.description;
   commentContainer.innerHTML = '';
   shownComments = 0;
-  generateComments(comments);
+  generateComments(picture.comments);
   commentsLoader.addEventListener('click', onSocialCommentsLoaderClick);
+  document.addEventListener('keydown', onDocumentKeydownEsc);
+  bigPicture.classList.remove('hidden');
+  document.body.classList.add('modal-open');
 };
 
 const onDocumentKeydownEsc = (evt) => {
@@ -84,14 +86,6 @@ const onDocumentKeydownEsc = (evt) => {
   }
 };
 
-// открытие и закрытие окна с полноразмерным изображение
-const openBigPicture = () => {
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  createBigPhoto();
-  document.addEventListener('keydown', onDocumentKeydownEsc);
-};
-
 const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -99,7 +93,6 @@ const closeBigPicture = () => {
   document.removeEventListener('keydown', onDocumentKeydownEsc);
 };
 
-openButton.addEventListener('click', () => openBigPicture());
 closeButton.addEventListener('click', () => closeBigPicture());
 
 export { createBigPhoto };

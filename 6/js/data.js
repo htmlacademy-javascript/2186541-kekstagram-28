@@ -46,6 +46,7 @@ const DESCRIPTION_PHOTOS = [
   'Жизнь такое спортлото, полюбила да не то',
   'Время затянуть пояса',
   'Здорово жить, жить так здорово',
+  'Отличный пейзаж',
   'Это мог быть последний пост, но описания будут выдаваться рандомно'
 ];
 
@@ -53,17 +54,13 @@ const NUMBER_OF_OBJECT = 25;
 const NUMBER_OF_COMMENTS = 13;
 
 const getRandomUniqueNumberForComments = getRandomUniqueNumber(1, 99999);
-getRandomUniqueNumberForComments();
-
 const getRandomUniqueNumberForObjects = getRandomUniqueNumber(1, 25);
-
 const getRandomUniqueNumberForDescription = getRandomUniqueNumber(0, 25);
-getRandomUniqueNumberForDescription();
 
 const createComment = () => ({
   id: getRandomUniqueNumberForComments(),
   avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
-  message: MESSAGES[getRandomNumber(0, 5)],
+  message: MESSAGES[getRandomNumber(0, 7)],
   name: AUTHOR_NAMES[getRandomNumber(0, 6)],
 });
 
