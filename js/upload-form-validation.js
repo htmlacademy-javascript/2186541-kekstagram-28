@@ -27,7 +27,14 @@ pristine.addValidator(textHashtags, validateHashtags, TEXT_ERROR);
 
 const onSubmit = (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  // оставила код ниже закомментированным, так как линтер ругается на наличие консоль лога, но кажется тебе так будет удобнее понять работает ли валидатор. После проверки уберу объявление переменной и выводы
+  // const isValid = pristine.validate();
+  // if (isValid) {
+  //   console.log('Все получилось');
+  // }
+  // else {
+  //   console.log('Что-то пошло не так');
+  // }
 };
 
 uploadForm.addEventListener('submit', onSubmit);
