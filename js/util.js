@@ -1,5 +1,6 @@
 // модуль с вспомогательными функциями
 const ALERT_SHOW_TIME = 5000;
+const DELAY_TIME = 500;
 
 const getRandomNumber = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -48,7 +49,7 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = DELAY_TIME) => {
   let timeoutId;
 
   return (...rest) => {

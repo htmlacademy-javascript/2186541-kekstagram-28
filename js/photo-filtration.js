@@ -22,8 +22,7 @@ const disactivateButtons = () => {
 const deletePictures = () => usersPicturesList.querySelectorAll('.picture').forEach((element) => element.remove());
 
 function showDefault(array) {
-  const arrayNew = array;
-  return arrayNew;
+  return array;
 }
 
 function showDiscussed(array) {
