@@ -12,12 +12,12 @@ const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
 const imgPreview = document.querySelector('.img-upload__preview img');
 const scaleController = document.querySelector('.scale__control--value');
-const imgTypes = ['jpg', 'jpeg', 'png'];
+const IMG_TYPES = ['jpg', 'jpeg', 'png'];
 
 uploadImgButton.addEventListener('change', () => {
   const file = uploadImgButton.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = imgTypes.some((ending) => fileName.endsWith(ending));
+  const matches = IMG_TYPES.some((ending) => fileName.endsWith(ending));
   if (matches) {
     imgPreview.src = URL.createObjectURL(file);
   }
