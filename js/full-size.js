@@ -2,7 +2,6 @@
 import { isEscapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
-const openButton = document.querySelector('.pictures');
 const closeButton = bigPicture.querySelector('#picture-cancel');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
@@ -36,16 +35,15 @@ const generateComments = (array) => {
   if (array.length <= 5) {
     commentsLoader.classList.add('hidden');
     createComment(array);
+    shownComments = array.length;
     commentCount.textContent = `${array.length} из ${array.length} комментариев`;
-  }
-  else {
+  } else {
     shownComments += COMMENTS_NUMBER;
     if (shownComments >= array.length) {
       commentsLoader.classList.add('hidden');
       shownComments = array.length;
       createComment(array);
-    }
-    else {
+    } else {
       comments = [];
       commentsLoader.classList.remove('hidden');
       for (let i = 0; i < shownComments; i++) {
@@ -64,6 +62,20 @@ const onSocialCommentsLoaderClick = (evt) => {
   generateComments(comments);
 };
 
+const onDocumentKeydownEsc = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeBigPicture();
+  }
+};
+
+function closeBigPicture () {
+  bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  commentsLoader.removeEventListener('click', onSocialCommentsLoaderClick);
+  document.removeEventListener('keydown', onDocumentKeydownEsc);
+}
+
 // Главная функция по отрисовке большого фото
 const createBigPhoto = (picture) => {
   bigPictureImg.src = picture.url;
@@ -79,20 +91,6 @@ const createBigPhoto = (picture) => {
   document.body.classList.add('modal-open');
 };
 
-const onDocumentKeydownEsc = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeBigPicture();
-  }
-};
-
-const closeBigPicture = () => {
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  commentsLoader.removeEventListener('click', onSocialCommentsLoaderClick);
-  document.removeEventListener('keydown', onDocumentKeydownEsc);
-};
-
 closeButton.addEventListener('click', () => closeBigPicture());
 
-export { createBigPhoto };
+export { createBigPhoto, closeBigPicture };

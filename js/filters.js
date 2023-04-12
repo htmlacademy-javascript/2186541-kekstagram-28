@@ -90,6 +90,18 @@ const filterVariants = [
 const DEFAULT_EFFECT = filterVariants[0];
 let chosenEffect = DEFAULT_EFFECT;
 
+const removeSlider = () => {
+  effectLevelSlider.noUiSlider.updateOptions({
+    name: 'none',
+    range: {
+      min: 0,
+      max: 100
+    },
+    start: 100,
+    step: 0.1
+  });
+};
+
 const updateSlider = () => {
   effectLevelSlider.noUiSlider.updateOptions({
     range: chosenEffect.range,
@@ -121,3 +133,5 @@ const onSliderUpdate = () => {
 
 radioButtons.addEventListener('change', changeFilter);
 effectLevelSlider.noUiSlider.on('update', onSliderUpdate);
+
+export {removeSlider};

@@ -1,9 +1,12 @@
+import { sendData } from './api.js';
+
 const APROVED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const HASHTAGS_NUMBER = 5;
 const TEXT_ERROR = 'Неверные хэштэги';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const textHashtags = document.querySelector('.text__hashtags');
+const submitButton = document.querySelector('#upload-submit');
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -25,16 +28,29 @@ const validateHashtags = (value) => {
 
 pristine.addValidator(textHashtags, validateHashtags, TEXT_ERROR);
 
-const onSubmit = (evt) => {
-  evt.preventDefault();
-  // оставила код ниже закомментированным, так как линтер ругается на наличие консоль лога, но кажется тебе так будет удобнее понять работает ли валидатор. После проверки уберу объявление переменной и выводы
-  // const isValid = pristine.validate();
-  // if (isValid) {
-  //   console.log('Все получилось');
-  // }
-  // else {
-  //   console.log('Что-то пошло не так');
-  // }
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Идет отправка....';
 };
 
-uploadForm.addEventListener('submit', onSubmit);
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess, onError) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch(onError)
+        .finally(unblockSubmitButton);
+    }
+  });
+};
+
+
+export { setUserFormSubmit };
