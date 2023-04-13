@@ -19,7 +19,7 @@ let shownComments = 0;
 const COMMENTS_NUMBER = 5;
 let comments = [];
 
-const createComment = (array) => {
+const renderComments = (array) => {
   const commentsFragment = document.createDocumentFragment();
   array.forEach(({ avatar, message, name }) => {
     const commentItem = commentItemTemplate.cloneNode(true);
@@ -31,26 +31,30 @@ const createComment = (array) => {
   commentContainer.append(commentsFragment);
 };
 
+const generateMoreComments = (array) => {
+  shownComments += COMMENTS_NUMBER;
+  if (shownComments >= array.length) {
+    commentsLoader.classList.add('hidden');
+    shownComments = array.length;
+    renderComments(array);
+  } else {
+    comments = [];
+    commentsLoader.classList.remove('hidden');
+    for (let i = 0; i < shownComments; i++) {
+      comments.push(array[i]);
+    }
+    renderComments(comments);
+  }
+};
+
 const generateComments = (array) => {
   if (array.length <= 5) {
     commentsLoader.classList.add('hidden');
-    createComment(array);
+    renderComments(array);
     shownComments = array.length;
     commentCount.textContent = `${array.length} из ${array.length} комментариев`;
   } else {
-    shownComments += COMMENTS_NUMBER;
-    if (shownComments >= array.length) {
-      commentsLoader.classList.add('hidden');
-      shownComments = array.length;
-      createComment(array);
-    } else {
-      comments = [];
-      commentsLoader.classList.remove('hidden');
-      for (let i = 0; i < shownComments; i++) {
-        comments.push(array[i]);
-      }
-      createComment(comments);
-    }
+    generateMoreComments(array);
     comments = array;
   }
   commentCount.textContent = `${shownComments} из ${array.length} комментариев`;
@@ -69,7 +73,7 @@ const onDocumentKeydownEsc = (evt) => {
   }
 };
 
-function closeBigPicture () {
+function closeBigPicture() {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   commentsLoader.removeEventListener('click', onSocialCommentsLoaderClick);

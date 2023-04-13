@@ -1,22 +1,9 @@
+import { onButtonOpenForm } from './upload-modal.js';
+
 // фильтры-эффекты для фото
 const MIN_VALUE = 0;
 const MAX_VALUE = 100;
-const radioButtons = document.querySelector('.effects__list');
-const imgPreview = document.querySelector('.img-upload__preview img');
-const effectLevelSlider = document.querySelector('.effect-level__slider');
-const effectValue = document.querySelector('.effect-level__value');
-const sliderContainer = document.querySelector('.effect-level');
-
-noUiSlider.create(effectLevelSlider, {
-  range: {
-    min: MIN_VALUE,
-    max: MAX_VALUE,
-  },
-  start: MAX_VALUE,
-  connect: 'lower'
-});
-
-const filterVariants = [
+const FILTER_VARIANTS = [
   {
     name: 'none',
     range: {
@@ -86,9 +73,25 @@ const filterVariants = [
     step: 0.1
   }
 ];
+const DEFAULT_EFFECT = FILTER_VARIANTS[0];
 
-const DEFAULT_EFFECT = filterVariants[0];
+const radioButtons = document.querySelector('.effects__list');
+const imgPreview = document.querySelector('.img-upload__preview img');
+const effectLevelSlider = document.querySelector('.effect-level__slider');
+const effectValue = document.querySelector('.effect-level__value');
+const sliderContainer = document.querySelector('.effect-level');
+const downloadButton = document.querySelector('.img-upload');
+
 let chosenEffect = DEFAULT_EFFECT;
+
+noUiSlider.create(effectLevelSlider, {
+  range: {
+    min: MIN_VALUE,
+    max: MAX_VALUE,
+  },
+  start: MAX_VALUE,
+  connect: 'lower'
+});
 
 const removeSlider = () => {
   effectLevelSlider.noUiSlider.updateOptions({
@@ -114,14 +117,15 @@ const updateSlider = () => {
   }
 };
 
-const changeFilter = (evt) => {
+const onButtonChangeFilter = (evt) => {
   sliderContainer.classList.remove('hidden');
   imgPreview.classList = '';
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  chosenEffect = filterVariants.find((filterVariant) => filterVariant.name === evt.target.value);
+  chosenEffect = FILTER_VARIANTS.find((filterVariant) => filterVariant.name === evt.target.value);
   imgPreview.classList.add(`effects__preview--${chosenEffect.name}`);
+  downloadButton.removeEventListener('change', onButtonOpenForm);
   updateSlider();
 };
 
@@ -131,7 +135,7 @@ const onSliderUpdate = () => {
   imgPreview.style.filter = `${chosenEffect.filter}(${effectValue.value}${chosenEffect.type})`;
 };
 
-radioButtons.addEventListener('change', changeFilter);
+radioButtons.addEventListener('change', onButtonChangeFilter);
 effectLevelSlider.noUiSlider.on('update', onSliderUpdate);
 
-export {removeSlider};
+export { removeSlider };
