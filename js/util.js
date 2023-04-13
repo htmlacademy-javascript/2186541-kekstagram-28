@@ -12,7 +12,7 @@ const getRandomNumber = (a, b) => {
 const getRandomUniqueNumber = (a, b) => {
   const usedNumbers = [];
 
-  return function () {
+  return () => {
     let currentValue = getRandomNumber(a, b);
     if (usedNumbers.length >= (b - a + 1)) {
       return 'Перебраны все числа из диапазона';

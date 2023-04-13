@@ -13,10 +13,14 @@ const filterTypes = {
   'filter-discussed': showDiscussed,
 };
 
-const showFiltration = () => imgFilters.classList.remove('img-filters--inactive');
+const buttonConditions = {
+  ACTIVE: 'img-filters__button--active',
+  INACTIVE: 'img-filters--inactive',
+  DEFAULT: '.img-filters__button',
+};
 
 const disactivateButtons = () => {
-  imgFilterButtons.forEach((item) => item.classList.remove('img-filters__button--active'));
+  imgFilterButtons.forEach((item) => item.classList.remove(buttonConditions.ACTIVE));
 };
 
 const deletePictures = () => usersPicturesList.querySelectorAll('.picture').forEach((element) => element.remove());
@@ -41,16 +45,27 @@ function showRandom(array) {
   return newRandomPictures;
 }
 
+const showFiltration = () => {
+  imgFilters.classList.remove(buttonConditions.INACTIVE);
+  buttonsContainer.addEventListener('click', (evt) => {
+    const chosenFilterButton = evt.target.closest(buttonConditions.DEFAULT);
+    if (!chosenFilterButton) {
+      return;
+    }
+    disactivateButtons();
+    chosenFilterButton.classList.add(buttonConditions.ACTIVE);
+  });
+};
+
 const startFilration = (serverPhotos) => {
   buttonsContainer.addEventListener('click', debounce((evt) => {
-    const chosenFilterButton = evt.target.closest('.img-filters__button');
-    if (chosenFilterButton) {
-      disactivateButtons();
-      chosenFilterButton.classList.add('img-filters__button--active');
-      const filtratedPhotos = filterTypes[chosenFilterButton.id](serverPhotos);
-      deletePictures();
-      createMiniature(filtratedPhotos);
+    const chosenFilterButton = evt.target.closest(buttonConditions.DEFAULT);
+    if (!chosenFilterButton) {
+      return;
     }
+    const filtratedPhotos = filterTypes[chosenFilterButton.id](serverPhotos);
+    deletePictures();
+    createMiniature(filtratedPhotos);
   }));
 };
 

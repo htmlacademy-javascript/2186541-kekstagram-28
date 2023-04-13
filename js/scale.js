@@ -12,7 +12,7 @@ const resizeImage = (newValue) => {
   scaleController.value = `${newValue}%`;
 };
 
-const onbuttonSmallerClick = () => {
+const onButtonSmallerClick = () => {
   const currentValue = parseInt(scaleController.value, 10);
   let newValue = currentValue - SCALE_STEP;
   if (newValue < MIN_RANGE) {
@@ -22,7 +22,7 @@ const onbuttonSmallerClick = () => {
   resizeImage(newValue);
 };
 
-const onbuttonBiggerClick = () => {
+const onButtonBiggerClick = () => {
   const currentValue = parseInt(scaleController.value, 10);
   let newValue = currentValue + SCALE_STEP;
   if (newValue > MAX_RANGE) {
@@ -32,5 +32,5 @@ const onbuttonBiggerClick = () => {
   resizeImage(newValue);
 };
 
-buttonSmaller.addEventListener('click', onbuttonSmallerClick);
-buttonBigger.addEventListener('click', onbuttonBiggerClick);
+buttonSmaller.addEventListener('click', onButtonSmallerClick);
+buttonBigger.addEventListener('click', onButtonBiggerClick);
